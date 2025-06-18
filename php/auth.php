@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $_SESSION['role'] = $user['role'];
 
                 header('Location: ' . ($_SESSION['role'] === 'auteur' ? 'author_dashboard.php' : 'user_dashboard.php'));
+                $_SESSION['username'] = $_POST['email'];
                 exit;
             } else {
                 $message = "Identifiants incorrects.";

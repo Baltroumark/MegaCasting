@@ -22,7 +22,7 @@ CREATE TABLE `candidatures` (
 `id` int NOT NULL AUTO_INCREMENT,
 `casting_id` int NOT NULL,
 `user_id` int NOT NULL,
-`statut` enum('en attente','acceptée','refusée') COLLATE utf8mb4_unicode_ci DEFAULT 'en attente',
+`statut` enum('en attente','accepter','refuser') COLLATE utf8mb4_unicode_ci DEFAULT 'en attente',
 `date_candidature` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (`id`),
 KEY `casting_id` (`casting_id`),
@@ -31,8 +31,8 @@ KEY `user_id` (`user_id`)
 
 INSERT INTO `candidatures` (`id`, `casting_id`, `user_id`, `statut`, `date_candidature`) VALUES
 (1, 1, 3, 'en attente', '2025-06-18 11:47:29'),
-(2, 1, 4, 'acceptée', '2025-06-18 11:47:29'),
-(3, 2, 3, 'refusée', '2025-06-18 11:47:29'),
+(2, 1, 4, 'accepter', '2025-06-18 11:47:29'),
+(3, 2, 3, 'refuser', '2025-06-18 11:47:29'),
 (4, 3, 5, 'en attente', '2025-06-18 11:47:29');
 
 
