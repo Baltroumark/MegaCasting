@@ -2,8 +2,8 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-DROP DATABASE megacasting;
-CREATE DATEBASE megacasting;
+DROP DATABASE IF EXISTS megacasting;
+CREATE DATABASE megacasting;
 USE megacasting;
 
 CREATE TABLE `applications` (
@@ -81,7 +81,7 @@ UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
+INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `role`) VALUES
 (1, 'Auteur1', 'auteur1@example.com', '$2y$10$DUMMYHASHFORTEST1', 'auteur'),
 (2, 'Auteur2', 'auteur2@example.com', '$2y$10$DUMMYHASHFORTEST2', 'auteur'),
 (3, 'Candidat1', 'candidat1@example.com', '$2y$10$DUMMYHASHFORTEST3', 'candidat'),
