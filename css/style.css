@@ -1,0 +1,103 @@
+/* Reset CSS */
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #333333;
+    color: #333;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 700px;
+    background: white;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+    margin-bottom: 1rem;
+    color: #444;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+input, select {
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1.5px solid #ddd;
+    font-size: 1rem;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+}
+
+button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.card {
+    background: #fafafa;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1);
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 12px 20px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.message.error {
+    background-color: #fdd;
+    color: #b33;
+}
+
+.message.success {
+    background-color: #dfd;
+    color: #393;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px 15px;
+        margin: 15px;
+    }
+}
