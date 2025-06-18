@@ -1,10 +1,20 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
+
 require_once 'db.php';
 
 $message = '';
 $show_login_form = true;
 
+if (!isset($pdo)) {
+    die('Erreur : base de données non connectée.');
+}
+
+// Redirection si l'utilisateur est déjà connecté
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['role'] === 'auteur') {
         header('Location: author_dashboard.php');
@@ -15,8 +25,12 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 
+// Gestion des actions POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    if ($_POST['action'] === 'login') { // Connexion
+    $action = $_POST['action'];
+
+    // Action : Connexion
+    if ($action === 'login') {
         $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
         $password = $_POST['password'] ?? '';
 
@@ -28,24 +42,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password_hash'])) {
-                // Connexion réussie
-                session_regenerate_id(true); // Sécurise la session
+                session_regenerate_id(true); // Sécurisation
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['role'] = $user['role'];
-                if ($user['role'] === 'auteur') {
-                    header('Location: author_dashboard.php');
-                    exit;
-                } else {
-                    header('Location: user_dashboard.php');
-                    exit;
-                }
+
+                header('Location: ' . ($_SESSION['role'] === 'auteur' ? 'author_dashboard.php' : 'user_dashboard.php'));
+                exit;
             } else {
                 $message = "Identifiants incorrects.";
             }
         }
     }
 
-    if ($_POST['action'] === 'register') { // Inscription
+    // Action : Inscription
+    elseif ($action === 'register') {
         $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
         $password = $_POST['password'] ?? '';
         $role = $_POST['role'] ?? '';
@@ -55,15 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         } else {
             $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
             $stmt->execute([$email]);
+
             if ($stmt->fetch()) {
                 $message = "Cet email est déjà utilisé.";
             } else {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
                 $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)');
                 $stmt->execute([$email, $hash, $role]);
-                $message = "Inscription réussie. Vous pouvez maintenant vous connecter.";
 
-                // Afficher directement le formulaire de connexion après l'inscription
+                $message = "Inscription réussie. Vous pouvez maintenant vous connecter.";
                 $show_login_form = true;
             }
         }
@@ -71,6 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 }
 
 if ($show_login_form) {
-    include_once '../views/auth.php';
+    include '../views/auth.php';
 }
 ?>
