@@ -2,11 +2,11 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-DROP DATABASE IF EXISTS megacasting;
+DROP DATABASE megacasting;
 CREATE DATEBASE megacasting;
 USE megacasting;
 
-CREATE TABLE IF NOT EXISTS `applications` (
+CREATE TABLE `applications` (
   `id` int NOT NULL AUTO_INCREMENT,
   `casting_id` int NOT NULL,
   `user_id` int NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `applications` (
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `candidatures` (
+CREATE TABLE `candidatures` (
     `id` int NOT NULL AUTO_INCREMENT,
     `casting_id` int NOT NULL,
     `user_id` int NOT NULL,
@@ -36,7 +36,7 @@ INSERT INTO `candidatures` (`id`, `casting_id`, `user_id`, `statut`, `date_postu
  (4, 3, 5, 'en attente', '2025-06-18 11:47:29');
 
 
-CREATE TABLE IF NOT EXISTS `castings` (
+CREATE TABLE `castings` (
     `id` int NOT NULL AUTO_INCREMENT,
     `projet_id` int NOT NULL,
     `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -54,7 +54,7 @@ INSERT INTO `castings` (`id`, `projet_id`, `titre`, `description`, `date_debut`,
 (3, 2, 'Rôle Comique', 'Acteur drôle et expressif', '2025-05-01', '2025-06-01');
 
 
-CREATE TABLE IF NOT EXISTS `projects` (
+CREATE TABLE `projects` (
     `id` int NOT NULL AUTO_INCREMENT,
     `user_id` int NOT NULL,
     `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -70,7 +70,7 @@ INSERT INTO `projects` (`id`, `user_id`, `title`, `description`, `created_at`) V
 (2, 2, 'Projet Comédie', 'Une comédie légère pour l’été.', '2025-06-18 11:47:29');
 
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
    `id` int NOT NULL AUTO_INCREMENT,
    `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
     `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
