@@ -29,7 +29,7 @@ $castings = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo "<button type=\"submit\">S'inscrire</button>";
             echo '</form>';
         } elseif (!isset($_SESSION['user_id'])){
-            echo '<p><a href="auth.php">Connecte-toi</a> pour postuler</p>';
+            echo '<p><a href="auth_view.php">Connecte-toi</a> pour postuler</p>';
         }
         echo '</div>';
     }

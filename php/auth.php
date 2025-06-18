@@ -81,6 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 }
 
 if ($show_login_form) {
-    include '../views/auth.php';
+    include '../views/auth_view.php';
 }
 ?>
