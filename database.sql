@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `applications`
 --
-
+DROP DATABASE IF EXISTS megacasting;
 DROP TABLE IF EXISTS `applications`;
 CREATE TABLE IF NOT EXISTS `applications` (
                                               `id` int NOT NULL AUTO_INCREMENT,
