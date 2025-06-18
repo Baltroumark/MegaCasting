@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (strlen($password) < 6) {
-        header("Location: ../views/auth.html?error=password");
+        header("Location: ../views/auth_view.php?error=password");
         exit();
     }
 
@@ -17,9 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $stmt->execute([$username, $email, $password_hash]);
-        header("Location: ../views/auth.html?success=1");
+        header("Location: ../views/auth_view.php?success=1");
     } catch (PDOException $e) {
-        header("Location: ../views/auth.html?error=duplicate");
+        header("Location: ../views/auth_view.php?error=duplicate");
     }
 }
 ?>

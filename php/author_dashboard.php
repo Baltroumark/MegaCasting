@@ -3,7 +3,7 @@ session_start();
 require 'db.php';
 
 if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'auteur') {
-    header("Location: ../views/auth.php");
+    header("Location: ../php/auth.php");
     exit;
 }
 

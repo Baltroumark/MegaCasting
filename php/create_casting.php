@@ -3,7 +3,7 @@ require 'db.php';
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'director') {
-    header("Location: ../views/auth.html");
+    header("Location: ../views/auth_view.php");
     exit();
 }
 

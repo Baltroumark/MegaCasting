@@ -7,7 +7,10 @@
 </head>
 <body>
 <div class="container">
-    <h1>Bonjour <?=htmlspecialchars($_SESSION['username'])?></h1>
+    <h1>Bonjour
+        <?php if (isset($_SESSION['username'])){
+            echo $_SESSION['username'];
+        }?></h1>
     <a href="../php/logout.php">Déconnexion</a>
     <h2>Mes candidatures</h2>
 

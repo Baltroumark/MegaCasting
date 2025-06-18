@@ -4,7 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-
+session_destroy();
+session_start();
 require_once 'db.php';
 
 $message = '';
@@ -14,7 +15,6 @@ if (!isset($pdo)) {
     die('Erreur : base de données non connectée.');
 }
 
-// Redirection si l'utilisateur est déjà connecté
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['role'] === 'auteur') {
         header('Location: author_dashboard.php');

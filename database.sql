@@ -7,45 +7,45 @@ CREATE DATEBASE megacasting;
 USE megacasting;
 
 CREATE TABLE `applications` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `casting_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `status` enum('en_attente','accepte','refuse') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en_attente',
-    `applied_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `unique_application` (`casting_id`,`user_id`),
-    KEY `user_id` (`user_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+`id` int NOT NULL AUTO_INCREMENT,
+`casting_id` int NOT NULL,
+`user_id` int NOT NULL,
+`status` enum('en_attente','accepte','refuse') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en_attente',
+`applied_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`),
+UNIQUE KEY `unique_application` (`casting_id`,`user_id`),
+KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `candidatures` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `casting_id` int NOT NULL,
-    `user_id` int NOT NULL,
-    `statut` enum('en attente','acceptée','refusée') COLLATE utf8mb4_unicode_ci DEFAULT 'en attente',
-    `date_postulation` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    KEY `casting_id` (`casting_id`),
-    KEY `user_id` (`user_id`)
-    ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+`id` int NOT NULL AUTO_INCREMENT,
+`casting_id` int NOT NULL,
+`user_id` int NOT NULL,
+`statut` enum('en attente','acceptée','refusée') COLLATE utf8mb4_unicode_ci DEFAULT 'en attente',
+`date_candidature` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`),
+KEY `casting_id` (`casting_id`),
+KEY `user_id` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `candidatures` (`id`, `casting_id`, `user_id`, `statut`, `date_postulation`) VALUES
- (1, 1, 3, 'en attente', '2025-06-18 11:47:29'),
- (2, 1, 4, 'acceptée', '2025-06-18 11:47:29'),
- (3, 2, 3, 'refusée', '2025-06-18 11:47:29'),
- (4, 3, 5, 'en attente', '2025-06-18 11:47:29');
+INSERT INTO `candidatures` (`id`, `casting_id`, `user_id`, `statut`, `date_candidature`) VALUES
+(1, 1, 3, 'en attente', '2025-06-18 11:47:29'),
+(2, 1, 4, 'acceptée', '2025-06-18 11:47:29'),
+(3, 2, 3, 'refusée', '2025-06-18 11:47:29'),
+(4, 3, 5, 'en attente', '2025-06-18 11:47:29');
 
 
 CREATE TABLE `castings` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `projet_id` int NOT NULL,
-    `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-    `date_debut` date NOT NULL,
-    `date_fin` date NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `projet_id` (`projet_id`)
-    ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+`id` int NOT NULL AUTO_INCREMENT,
+`projet_id` int NOT NULL,
+`titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+`description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+`date_debut` date NOT NULL,
+`date_fin` date NOT NULL,
+PRIMARY KEY (`id`),
+KEY `projet_id` (`projet_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 INSERT INTO `castings` (`id`, `projet_id`, `titre`, `description`, `date_debut`, `date_fin`) VALUES
@@ -55,14 +55,14 @@ INSERT INTO `castings` (`id`, `projet_id`, `titre`, `description`, `date_debut`,
 
 
 CREATE TABLE `projects` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `user_id` int NOT NULL,
-    `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `description` text COLLATE utf8mb4_unicode_ci,
-    `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    KEY `user_id` (`user_id`)
-    ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+`id` int NOT NULL AUTO_INCREMENT,
+`user_id` int NOT NULL,
+`title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+`description` text COLLATE utf8mb4_unicode_ci,
+`created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`),
+KEY `user_id` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 INSERT INTO `projects` (`id`, `user_id`, `title`, `description`, `created_at`) VALUES
@@ -71,14 +71,14 @@ INSERT INTO `projects` (`id`, `user_id`, `title`, `description`, `created_at`) V
 
 
 CREATE TABLE `users` (
-   `id` int NOT NULL AUTO_INCREMENT,
-   `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `password_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `role` enum('candidat','auteur') COLLATE utf8mb4_unicode_ci NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `email` (`email`)
-    ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+`id` int NOT NULL AUTO_INCREMENT,
+`username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+`email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+`password_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+`role` enum('candidat','auteur') COLLATE utf8mb4_unicode_ci NOT NULL,
+PRIMARY KEY (`id`),
+UNIQUE KEY `email` (`email`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
