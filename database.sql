@@ -1,31 +1,7 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1:3306
--- Généré le : mer. 18 juin 2025 à 11:58
--- Version du serveur : 8.3.0
--- Version de PHP : 8.2.18
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de données : `megacasting`
---
-
--- --------------------------------------------------------
-
---
--- Structure de la table `applications`
---
 DROP DATABASE IF EXISTS megacasting;
 CREATE DATEBASE megacasting;
 USE megacasting;
@@ -41,11 +17,6 @@ CREATE TABLE IF NOT EXISTS `applications` (
     KEY `user_id` (`user_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `candidatures`
---
 
 CREATE TABLE IF NOT EXISTS `candidatures` (
     `id` int NOT NULL AUTO_INCREMENT,
@@ -58,21 +29,12 @@ CREATE TABLE IF NOT EXISTS `candidatures` (
     KEY `user_id` (`user_id`)
     ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Déchargement des données de la table `candidatures`
---
-
 INSERT INTO `candidatures` (`id`, `casting_id`, `user_id`, `statut`, `date_postulation`) VALUES
  (1, 1, 3, 'en attente', '2025-06-18 11:47:29'),
  (2, 1, 4, 'acceptée', '2025-06-18 11:47:29'),
  (3, 2, 3, 'refusée', '2025-06-18 11:47:29'),
  (4, 3, 5, 'en attente', '2025-06-18 11:47:29');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `castings`
---
 
 CREATE TABLE IF NOT EXISTS `castings` (
     `id` int NOT NULL AUTO_INCREMENT,
@@ -85,20 +47,11 @@ CREATE TABLE IF NOT EXISTS `castings` (
     KEY `projet_id` (`projet_id`)
     ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Déchargement des données de la table `castings`
---
 
 INSERT INTO `castings` (`id`, `projet_id`, `titre`, `description`, `date_debut`, `date_fin`) VALUES
 (1, 1, 'Casting Principal', 'Recherche acteur principal dramatique', '2025-06-01', '2025-07-01'),
 (2, 1, 'Second rôle', 'Recherche acteur secondaire', '2025-06-10', '2025-07-10'),
 (3, 2, 'Rôle Comique', 'Acteur drôle et expressif', '2025-05-01', '2025-06-01');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `projects`
---
 
 
 CREATE TABLE IF NOT EXISTS `projects` (
@@ -111,19 +64,11 @@ CREATE TABLE IF NOT EXISTS `projects` (
     KEY `user_id` (`user_id`)
     ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Déchargement des données de la table `projects`
---
 
 INSERT INTO `projects` (`id`, `user_id`, `title`, `description`, `created_at`) VALUES
 (1, 1, 'Projet Film Noir', 'Un long-métrage sombre et mystérieux.', '2025-06-18 11:47:29'),
 (2, 2, 'Projet Comédie', 'Une comédie légère pour l’été.', '2025-06-18 11:47:29');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `users`
---
 
 CREATE TABLE IF NOT EXISTS `users` (
    `id` int NOT NULL AUTO_INCREMENT,
@@ -135,9 +80,6 @@ CREATE TABLE IF NOT EXISTS `users` (
     UNIQUE KEY `email` (`email`)
     ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Déchargement des données de la table `users`
---
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
 (1, 'Auteur1', 'auteur1@example.com', '$2y$10$DUMMYHASHFORTEST1', 'auteur'),
