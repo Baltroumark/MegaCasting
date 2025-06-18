@@ -1,11 +1,11 @@
 <?php
 session_start();
 require_once 'db.php';
-include_once '../views/auth.php';
+
 $message = '';
+$show_login_form = true;
 
 if (isset($_SESSION['user_id'])) {
-
     if ($_SESSION['role'] === 'auteur') {
         header('Location: author_dashboard.php');
         exit;
@@ -15,57 +15,62 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 
-$message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    if ($_POST['action'] === 'login') { // Connexion
+        $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+        $password = $_POST['password'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['action'])) {
-        if ($_POST['action'] === 'login') {
-            $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-            $password = $_POST['password'] ?? '';
+        if (!$email || !$password) {
+            $message = "Merci de remplir tous les champs correctement.";
+        } else {
+            $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
+            $stmt->execute([$email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (!$email || !$password) {
-                $message = "Merci de remplir tous les champs correctement.";
-            } else {
-                $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
-                $stmt->execute([$email]);
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($user && password_verify($password, $user['password_hash'])) {
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['role'] = $user['role'];
-                    if ($user['role'] === 'auteur') {
-                        header('Location: author_dashboard.php');
-                        exit;
-                    } else {
-                        header('Location: user_dashboard.php');
-                        exit;
-                    }
+            if ($user && password_verify($password, $user['password_hash'])) {
+                // Connexion réussie
+                session_regenerate_id(true); // Sécurise la session
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['role'] = $user['role'];
+                if ($user['role'] === 'auteur') {
+                    header('Location: author_dashboard.php');
+                    exit;
                 } else {
-                    $message = "Identifiants incorrects.";
+                    header('Location: user_dashboard.php');
+                    exit;
                 }
+            } else {
+                $message = "Identifiants incorrects.";
             }
         }
+    }
 
-        if ($_POST['action'] === 'register') {
-            $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-            $password = $_POST['password'] ?? '';
-            $role = $_POST['role'] ?? '';
+    if ($_POST['action'] === 'register') { // Inscription
+        $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+        $password = $_POST['password'] ?? '';
+        $role = $_POST['role'] ?? '';
 
-            if (!$email || !$password || !in_array($role, ['candidat', 'auteur'])) {
-                $message = "Merci de remplir tous les champs correctement.";
+        if (!$email || !$password || !in_array($role, ['candidat', 'auteur'])) {
+            $message = "Merci de remplir tous les champs correctement.";
+        } else {
+            $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
+            $stmt->execute([$email]);
+            if ($stmt->fetch()) {
+                $message = "Cet email est déjà utilisé.";
             } else {
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)');
+                $stmt->execute([$email, $hash, $role]);
+                $message = "Inscription réussie. Vous pouvez maintenant vous connecter.";
 
-                $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
-                $stmt->execute([$email]);
-                if ($stmt->fetch()) {
-                    $message = "Cet email est déjà utilisé.";
-                } else {
-                    $hash = password_hash($password, PASSWORD_DEFAULT);
-                    $stmt = $pdo->prepare('INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)');
-                    $stmt->execute([$email, $hash, $role]);
-                    $message = "Inscription réussie. Vous pouvez maintenant vous connecter.";
-                }
+                // Afficher directement le formulaire de connexion après l'inscription
+                $show_login_form = true;
             }
         }
     }
 }
+
+if ($show_login_form) {
+    include_once '../views/auth.php';
+}
+?>
