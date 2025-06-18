@@ -100,7 +100,7 @@ INSERT INTO `castings` (`id`, `projet_id`, `titre`, `description`, `date_debut`,
 -- Structure de la table `projects`
 --
 
-DROP TABLE IF EXISTS `projects`;
+
 CREATE TABLE IF NOT EXISTS `projects` (
     `id` int NOT NULL AUTO_INCREMENT,
     `user_id` int NOT NULL,
@@ -125,7 +125,6 @@ INSERT INTO `projects` (`id`, `user_id`, `title`, `description`, `created_at`) V
 -- Structure de la table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
    `id` int NOT NULL AUTO_INCREMENT,
    `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
