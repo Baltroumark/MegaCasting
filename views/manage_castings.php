@@ -47,7 +47,7 @@
       foreach ($castings as $casting) {
           echo '<tr>';
           echo '<td>' . htmlspecialchars($casting['titre']) . '</td>';
-          echo '<td>' . htmlspecialchars($casting['projet_titre']) . '</td>';
+          echo '<td>' . htmlspecialchars($casting['project_title']) . '</td>';
           echo '<td>' . htmlspecialchars($casting['date_debut']) . '</td>';
           echo '<td>' . htmlspecialchars($casting['date_fin']) . '</td>';
           echo '</tr>';

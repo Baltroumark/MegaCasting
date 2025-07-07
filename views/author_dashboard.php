@@ -12,7 +12,6 @@
 
     <h2>Mes projets</h2>
     <a href="../php/create_project.php" class="btn">Créer un nouveau projet</a>
-
     <?php if (empty($projects)): ?>
         <p>Aucun projet de créé</p>
     <?php else: ?>
@@ -20,10 +19,11 @@
             <div class="card">
                 <h3><?= htmlspecialchars($proj['title']) ?></h3>
                 <p><?= nl2br(htmlspecialchars($proj['description'])) ?></p>
-                <a href="manage_castings.php?project_id=<?= intval($proj['id']) ?>" class="btn">Gérer les castings</a>
+                <a href="../php/create_casting.php" class="btn">Créer un casting pour ce projet</a>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+    <a href="../php/manage_applications.php" class="btn">Gérer les candidatures</a>
 </div>
 </body>
 </html>

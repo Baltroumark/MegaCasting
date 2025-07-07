@@ -1,28 +1,34 @@
 <?php
-require 'db.php';
 session_start();
+require 'db.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'director') {
-    header("Location: ../views/auth_view.php");
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'auteur') {
+    header("Location: login.php");
     exit();
 }
+
+$user_id = $_SESSION['user_id'];
+$stmt = $pdo->prepare("SELECT * FROM projects WHERE user_id = ?");
+$stmt->execute([$user_id]);
+$projects = $stmt->fetchAll();
+
+$message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_SESSION['user_id'];
-    $title = trim($_POST['title']);
+    $projet_id = $_POST['projet_id'];
+    $titre = trim($_POST['titre']);
     $description = trim($_POST['description']);
-    $location = trim($_POST['location']);
-    $date_casting = $_POST['date_casting'];
+    $date_debut = $_POST['date_debut'];
+    $date_fin = $_POST['date_fin'];
 
-    if (!$title || !$description || !$location || !$date_casting) {
-        header("Location: ../views/create_casting.php?error=1");
-        exit();
+    if ($projet_id && $titre && $description && $date_debut && $date_fin) {
+        $stmt = $pdo->prepare("INSERT INTO castings (projet_id, user_id, titre, description, date_debut, date_fin) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$projet_id, $user_id, $titre, $description, $date_debut, $date_fin]);
+        $message = "Casting créé avec succès.";
+    } else {
+        $message = "Tous les champs sont obligatoires.";
     }
-
-    $stmt = $pdo->prepare("INSERT INTO castings (user_id, title, description, location, date_casting) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$user_id, $title, $description, $location, $date_casting]);
-
-    header("Location: ../views/home.php?casting_created=1");
-    exit();
 }
+
+include '../views/create_casting.php';
 ?>

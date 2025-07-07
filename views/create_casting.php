@@ -1,11 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'director') {
-    header("Location: auth.html");
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,14 +6,25 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'director') {
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<div class="container" style="flex-direction: column; align-items: center;">
+<div class="container">
     <div class="card">
         <h2>Créer un casting</h2>
-        <form action="../php/create_casting.php" method="post">
-            <input type="text" name="title" placeholder="Titre du casting" required>
+        <?php if (!empty($message)): ?>
+            <p class="message"><?= htmlspecialchars($message) ?></p>
+        <?php endif; ?>
+        <form action="" method="post">
+            <label>Projet :
+                <select name="projet_id" required>
+                    <option value="">-- Sélectionner un projet --</option>
+                    <?php foreach ($projects as $proj): ?>
+                        <option value="<?= $proj['id'] ?>"><?= htmlspecialchars($proj['title']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label><br>
+            <input type="text" name="titre" placeholder="Titre du casting" required>
             <textarea name="description" placeholder="Description du projet" rows="5" required></textarea>
-            <input type="text" name="location" placeholder="Lieu" required>
-            <input type="date" name="date_casting" required>
+            <input type="date" name="date_debut" required>
+            <input type="date" name="date_fin" required>
             <button type="submit">Publier le casting</button>
         </form>
     </div>

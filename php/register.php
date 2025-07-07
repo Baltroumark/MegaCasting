@@ -1,25 +1,30 @@
 <?php
-require 'db.php';
+session_start();
+require_once 'db.php';
+
+$message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
+    $username = trim($_POST['username'] ?? '');
+    $email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
+    $password = $_POST['password'] ?? '';
+    $role = $_POST['role'] ?? '';
 
-    if (strlen($password) < 6) {
-        header("Location: ../views/auth_view.php?error=password");
-        exit();
-    }
-
-    $password_hash = password_hash($password, PASSWORD_DEFAULT);
-
-    $stmt = $pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
-
-    try {
-        $stmt->execute([$username, $email, $password_hash]);
-        header("Location: ../views/auth_view.php?success=1");
-    } catch (PDOException $e) {
-        header("Location: ../views/auth_view.php?error=duplicate");
+    if (!$username || !$email || !$password || !in_array($role, ['candidat', 'auteur'])) {
+        $message = "Merci de remplir tous les champs correctement.";
+    } else {
+        $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
+        $stmt->execute([$email]);
+        if ($stmt->fetch()) {
+            $message = "Cet email est déjà utilisé.";
+        } else {
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare('INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)');
+            $stmt->execute([$username, $email, $hash, $role]);
+            $message = "Inscription réussie. <a href='login.php'>Connectez-vous ici</a>.";
+        }
     }
 }
+
+include '../views/register_view.php';
 ?>

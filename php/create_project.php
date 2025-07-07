@@ -1,12 +1,11 @@
 <?php
 session_start();
+require 'db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'auteur') {
-    header("Location: ../views/auth_view.php");
+    header("Location: login.php");
     exit;
 }
-
-require_once 'db.php';
 
 $user_id = $_SESSION['user_id'];
 $message = '';
@@ -25,3 +24,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 include_once '../views/create_project.php';
+?>

@@ -42,5 +42,4 @@ $stmtCastings = $pdo->prepare("
 ");
 $stmtCastings->execute([$user_id]);
 $castings = $stmtCastings->fetchAll(PDO::FETCH_ASSOC);
-
 include_once '../views/manage_castings.php';
